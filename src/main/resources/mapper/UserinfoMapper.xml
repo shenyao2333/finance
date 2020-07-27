@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.finance.mapper.UserinfoMapper">
+  <resultMap id="BaseResultMap" type="com.sy.finance.domain.Userinfo">
+    <!--@mbg.generated-->
+    <!--@Table userinfo-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="msg" jdbcType="VARCHAR" property="msg" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, username, `password`, phone, photo, `role`, company, msg, created
+  </sql>
+  <sql id="Base_Column_List_Vo">
+    <!--@mbg.generated-->
+    id, username, phone, photo, `role`, company, msg, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.finance.domain.Userinfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into userinfo (username, `password`, phone,
+      photo, `role`, company,
+      msg, created)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{photo,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR},
+      #{msg,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.finance.domain.Userinfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into userinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="role != null">
+        `role`,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="msg != null">
+        msg,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null">
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.finance.domain.Userinfo">
+    <!--@mbg.generated-->
+    update userinfo
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        `role` = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null">
+        msg = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.finance.domain.Userinfo">
+    <!--@mbg.generated-->
+    update userinfo
+    set username = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      `role` = #{role,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      msg = #{msg,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="login" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List_Vo"/>
+    from userinfo
+    where (username = #{accounts,jdbcType=VARCHAR} or phone = #{accounts,jdbcType=VARCHAR})
+    and password = #{password,jdbcType=VARCHAR}
+  </select>
+</mapper>
