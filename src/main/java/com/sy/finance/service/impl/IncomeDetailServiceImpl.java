@@ -49,4 +49,9 @@ public class IncomeDetailServiceImpl implements IncomeDetailService{
         return incomeDetailMapper.selectByAll(incomeDetail);
     }
 
+    @Override
+    public List<IncomeDetail> selectByParentId(Integer parentId) {
+        return incomeDetailMapper.selectByParentId(parentId);
+    }
+
 }

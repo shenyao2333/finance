@@ -21,4 +21,9 @@ public interface IncomeDetailMapper {
     List<IncomeDetail> selectByAll(IncomeDetail incomeDetail);
 
 
+    List<IncomeDetail> selectByParentId(@Param("parentId")Integer parentId);
+
+
+
+
 }

@@ -17,30 +17,18 @@ import java.io.Serializable;
 public class GetIncomDetailDto implements Serializable {
 
     /**
-     * 客户姓名
+     * 父id
      */
-    @ApiModelProperty(value="客户姓名")
-    private String clientName;
+    @ApiModelProperty(value="父id")
+    private Integer parentId;
 
     /**
-     * 公司
+     * 商品名
      */
-    @ApiModelProperty(value="公司")
-    private String company;
-
-    /**
-     * 手机号
-     */
-    @ApiModelProperty(value="手机号")
-    private String phone;
+    @ApiModelProperty(value="商品名")
+    private String goodsName;
 
 
-
-    /**
-     * 流水号
-     */
-    @ApiModelProperty(value="流水号")
-    private String serialUmber;
 
     @NotNull(message = "页码不能为空")
     @ApiModelProperty(value = "页码")

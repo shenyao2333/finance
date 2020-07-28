@@ -47,8 +47,8 @@ public class IncomeDetail implements Serializable {
     /**
     * 状态 0-未结清  1-结清
     */
-    @ApiModelProperty(value="状态 0-未结清  1-结清")
-    private Integer clearing;
+    @ApiModelProperty(value="状态 0-未结清  1-结清，默认为0")
+    private Integer clearing=0;
 
     /**
     * 父id

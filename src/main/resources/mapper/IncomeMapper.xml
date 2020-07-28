@@ -146,31 +146,31 @@
         <include refid="Base_Column_List"/>
         from income
         <where>
-            <if test="id != null">
+            <if test="id != null and id !='' ">
                 and id=#{id,jdbcType=INTEGER}
             </if>
-            <if test="clientName != null">
+            <if test="clientName != null and clientName != '' ">
                 and client_name=#{clientName,jdbcType=VARCHAR}
             </if>
-            <if test="company != null">
+            <if test="company != null and company != ''">
                 and company=#{company,jdbcType=VARCHAR}
             </if>
-            <if test="phone != null">
+            <if test="phone != null and phone != '' ">
                 and phone=#{phone,jdbcType=VARCHAR}
             </if>
-            <if test="totalMoney != null">
+            <if test="totalMoney != null  and totalMoney != ''">
                 and total_money=#{totalMoney,jdbcType=DECIMAL}
             </if>
-            <if test="created != null">
+            <if test="created != null and created != ''">
                 and created=#{created,jdbcType=TIMESTAMP}
             </if>
-            <if test="serialUmber != null">
+            <if test="serialUmber != null and serialUmber != ''">
                 and serial_umber=#{serialUmber,jdbcType=VARCHAR}
             </if>
-            <if test="status != null">
+            <if test="status != null and status != ''">
                 and `status`=#{status,jdbcType=INTEGER}
             </if>
-            <if test="clearing != null">
+            <if test="clearing != null and clearing != ''">
                 and clearing=#{clearing,jdbcType=INTEGER}
             </if>
         </where>

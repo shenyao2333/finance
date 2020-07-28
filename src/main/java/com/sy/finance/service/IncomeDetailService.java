@@ -21,4 +21,6 @@ public interface IncomeDetailService{
 
     List<IncomeDetail> selectByAll(IncomeDetail incomeDetail);
 
+    List<IncomeDetail> selectByParentId(Integer parentId);
+
 }

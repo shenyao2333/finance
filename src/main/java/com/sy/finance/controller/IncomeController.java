@@ -6,6 +6,7 @@ import com.sy.finance.domain.Income;
 import com.sy.finance.domain.IncomeDetail;
 import com.sy.finance.domain.dto.AddIncomeInfoDto;
 import com.sy.finance.domain.dto.GetIncomDetailDto;
+import com.sy.finance.domain.dto.GetIncomeDto;
 import com.sy.finance.service.IncomeDetailService;
 import com.sy.finance.service.IncomeService;
 import com.sy.finance.web.RespBean;
@@ -47,11 +48,13 @@ public class IncomeController {
 
     @PostMapping("/getIncomeList")
     @ApiOperation(value = "获取收入列表")
-    public RespBean<List<Income>> getIncomeList(@RequestBody @Valid Income income){
+    public RespBean<List<Income>> getIncomeList(@RequestBody @Valid GetIncomeDto dto){
+        Income income = new Income();
+        BeanUtils.copyProperties(dto,income);
+        PageHelper.startPage(dto.getPage(),dto.getPageSize());
         List<Income> incomes = incomeService.selectByAll(income);
         return  RespBean.succeed(incomes);
     }
-
 
 
     @ApiOperation(value = "修改状态，主键id和status必传")
@@ -64,12 +67,12 @@ public class IncomeController {
 
 
     @PostMapping("/getIncomeDetailList")
-    @ApiOperation(value = "获取收入详情")
+    @ApiOperation(value = "获取收入详情列表")
     public RespBean<PageInfo<List<IncomeDetail>>> getIncomeDetailList(@RequestBody @Valid GetIncomDetailDto dto){
-        new Incom
-        BeanUtils.copyProperties(dto);
+        IncomeDetail detail = new IncomeDetail();
+        BeanUtils.copyProperties(dto,detail);
         PageHelper.startPage(dto.getPage(),dto.getPageSize());
-        List<IncomeDetail> incomeDetails = incomeDetailService.selectByAll(incomeDetail);
+        List<IncomeDetail> incomeDetails = incomeDetailService.selectByAll(detail);
         PageInfo<List<IncomeDetail>> listPageInfo = new PageInfo(incomeDetails);
         return RespBean.succeed(listPageInfo);
     }
