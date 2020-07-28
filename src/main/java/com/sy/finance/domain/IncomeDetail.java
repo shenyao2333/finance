@@ -57,13 +57,7 @@ public class IncomeDetail implements Serializable {
     private Integer parentId;
 
 
-    @NotNull(message ="page不能为空" )
-    @ApiModelProperty(value = "页码",required = true)
-    private Integer page;
 
-    @NotNull(message ="pageSize不能为空" )
-    @ApiModelProperty(value = "数据量",required = true)
-    private Integer pageSize;
 
     private static final long serialVersionUID = 1L;
 }

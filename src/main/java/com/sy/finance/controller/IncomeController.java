@@ -5,11 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.sy.finance.domain.Income;
 import com.sy.finance.domain.IncomeDetail;
 import com.sy.finance.domain.dto.AddIncomeInfoDto;
+import com.sy.finance.domain.dto.GetIncomDetailDto;
 import com.sy.finance.service.IncomeDetailService;
 import com.sy.finance.service.IncomeService;
 import com.sy.finance.web.RespBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -61,10 +63,12 @@ public class IncomeController {
 
 
 
-    @PostMapping("/addIncomeInfo")
+    @PostMapping("/getIncomeDetailList")
     @ApiOperation(value = "获取收入详情")
-    public RespBean<PageInfo<List<IncomeDetail>>> getIncomeDetailList(@RequestBody @Valid IncomeDetail incomeDetail){
-        PageHelper.startPage(incomeDetail.getPage(),incomeDetail.getPageSize());
+    public RespBean<PageInfo<List<IncomeDetail>>> getIncomeDetailList(@RequestBody @Valid GetIncomDetailDto dto){
+        new Incom
+        BeanUtils.copyProperties(dto);
+        PageHelper.startPage(dto.getPage(),dto.getPageSize());
         List<IncomeDetail> incomeDetails = incomeDetailService.selectByAll(incomeDetail);
         PageInfo<List<IncomeDetail>> listPageInfo = new PageInfo(incomeDetails);
         return RespBean.succeed(listPageInfo);
