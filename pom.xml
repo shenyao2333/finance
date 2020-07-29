@@ -104,7 +104,7 @@
         </dependency>
 
 
-        <!--API展示 status-->
+        <!--API展示 static-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>

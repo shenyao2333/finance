@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 import java.util.List;
 
@@ -20,6 +21,36 @@ import java.util.List;
  */
 @Slf4j
 public class PDFUtil  {
+
+
+    /**
+     * pdf填充，返回一个输入流
+     * @param map
+     * @param inUrl
+     * @return
+     */
+    public static InputStream convertTransData(Map map ,String inUrl){
+        if (map == null || map.isEmpty()){
+            return null;
+        }
+        InputStream inputStream = null;
+        try {
+            inputStream = new URL(inUrl).openStream();
+        } catch (IOException e) {
+            log.error("获取下载资源失败");
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream out = null;
+        try {
+            out = (ByteArrayOutputStream)generate(
+                    new PdfReader(inputStream),
+                    map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ByteArrayInputStream ret = new ByteArrayInputStream(out.toByteArray());
+        return ret;
+    }
 
 
 
@@ -62,7 +93,7 @@ public class PDFUtil  {
             // set the field values in the pdf form
             for (Iterator it = data.keySet().iterator(); it.hasNext();) {
                 String key = (String) it.next();
-                String value = (String) data.get(key);
+                String value =  data.get(key).toString();
                 form.setFieldProperty(key, "textfont", bfChinese, null);
                 form.setField(key, value);
 

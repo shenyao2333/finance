@@ -59,7 +59,7 @@ public class IncomeController {
 
     @ApiOperation(value = "修改状态，主键id和status必传")
     @GetMapping("/updIncomeStatus")
-    public RespBean updIncomeStatus(@RequestParam(value = "id") Integer id , @RequestParam(value = "status")Integer status){
+    public RespBean updIncomeStatus(@RequestParam(value = "id") Integer id , @RequestParam(value = "static")Integer status){
         incomeService.updateStatusById(id,status);
         return RespBean.succeed();
     }
