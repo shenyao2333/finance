@@ -28,5 +28,6 @@ public interface IncomeMapper {
 
     int updateStatusById(@Param("id") Integer id, @Param("status") Integer status);
 
+    int updateClearingById(@Param("updatedClearing")Integer updatedClearing,@Param("id")Integer id);
 
 }

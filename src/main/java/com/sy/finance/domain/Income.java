@@ -1,5 +1,6 @@
 package com.sy.finance.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -15,7 +16,7 @@ public class Income implements Serializable {
     /**
     * 主键id
     */
-    @ApiModelProperty(value="主键id")
+    @ApiModelProperty(value="主键id" ,required = true )
     private Integer id;
 
     /**
@@ -46,6 +47,7 @@ public class Income implements Serializable {
     * 创建时间
     */
     @ApiModelProperty(value="创建时间")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date created;
 
     /**

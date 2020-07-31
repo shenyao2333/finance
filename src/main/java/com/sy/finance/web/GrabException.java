@@ -21,7 +21,6 @@ public class GrabException extends RuntimeException {
         this.msg = msg;
     }
 
-
     public GrabException(ErrorEnum err) {
         this.code=err.getCode();
         this.msg=err.getMsg();

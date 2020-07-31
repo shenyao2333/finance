@@ -2,6 +2,8 @@ package com.sy.finance.service.impl;
 
 import com.sy.finance.domain.Income;
 import com.sy.finance.domain.IncomeDetail;
+import com.sy.finance.domain.Template;
+import com.sy.finance.mapper.TemplateMapper;
 import com.sy.finance.service.IncomeDetailService;
 import com.sy.finance.service.IncomeService;
 import com.sy.finance.service.TemplateService;
@@ -25,12 +27,14 @@ import java.util.List;
 public class TemplateServiceImpl implements TemplateService {
 
 
-
     @Resource
     private IncomeDetailService incomeDetailService;
 
     @Resource
     private IncomeService incomeService;
+
+    @Resource
+    private TemplateMapper templateMapper;
 
 
     @Override
@@ -41,34 +45,83 @@ public class TemplateServiceImpl implements TemplateService {
 
         HashMap<String, Object> map = new HashMap<>();
 
-        map.put("client",income.getClientName());
-        map.put("phone",income.getPhone());
-        map.put("staff","李锐明");
-        map.put("time",df.format(new Date()));
-        map.put("serialNum",income.getSerialUmber());
-        map.put("total",income.getTotalMoney());
+        map.put("client", income.getClientName());
+        map.put("phone", income.getPhone());
+        map.put("staff", "李锐明");
+        map.put("time", df.format(new Date()));
+        map.put("serialNum", income.getSerialUmber());
+        map.put("total", income.getTotalMoney());
 
         for (int i = 1; i <= incomeDetails.size(); i++) {
-            map.put("number"+i,i);
-            map.put("brandName"+i,incomeDetails.get(i-1).getGoodsName());
-            map.put("price"+i,incomeDetails.get(i-1).getPrice());
-            map.put("quantity"+i,incomeDetails.get(i-1).getCount());
-            map.put("prices"+i,incomeDetails.get(i-1).getPrices());
+            map.put("number" + i, fillLen(i+""));
+            map.put("brandName" + i, incomeDetails.get(i - 1).getGoodsName());
+            map.put("price" + i, incomeDetails.get(i - 1).getPrice());
+            map.put("quantity" + i, incomeDetails.get(i - 1).getCount());
+            map.put("prices" + i, incomeDetails.get(i - 1).getPrices());
         }
 
-        String fileUrl = "/static/file";
-        if (incomeDetails.size()<=7){
-            fileUrl = "http://eecontract.oss-cn-beijing.aliyuncs.com/test/20200729221906prXozOSJURF7sFZ.pdf";
-        }else if (incomeDetails.size()<=14){
-            fileUrl = fileUrl+"2.pdf";
-        }else if (incomeDetails.size()<=21){
-            fileUrl = fileUrl+"4.pdf";
-        }else{
-            fileUrl = fileUrl+"5.pdf";
+        String fileUrl;
+        if (incomeDetails.size() <= 6) {
+            Template template = selectByPrimaryKey(1);
+            fileUrl=template.getFileUrl();
+        } else if (incomeDetails.size() <= 10) {
+            Template template = selectByPrimaryKey(2);
+            fileUrl=template.getFileUrl();
+        } else if (incomeDetails.size() <= 14) {
+            Template template = selectByPrimaryKey(3);
+            fileUrl=template.getFileUrl();
+        } else {
+            Template template = selectByPrimaryKey(4);
+            fileUrl=template.getFileUrl();
         }
         InputStream inputStream = PDFUtil.convertTransData(map, fileUrl);
         String pdf = OssUtil.getFileNameBySuffix("pdf");
         String s = OssUtil.uploadByStream(inputStream, null, pdf);
         return s;
     }
+
+    @Override
+    public int deleteByPrimaryKey(Integer id) {
+        return templateMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int insert(Template record) {
+        return templateMapper.insert(record);
+    }
+
+    @Override
+    public int insertSelective(Template record) {
+        return templateMapper.insertSelective(record);
+    }
+
+    @Override
+    public Template selectByPrimaryKey(Integer id) {
+        return templateMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(Template record) {
+        return templateMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public int updateByPrimaryKey(Template record) {
+        return templateMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<Template> selectByAll(Template template) {
+        return templateMapper.selectByAll(template);
+    }
+
+
+    public String fillLen(String str){
+        if (str.length()<2){
+            return "0"+str;
+        }
+        return str;
+
+    }
 }
+

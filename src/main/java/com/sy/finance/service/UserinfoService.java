@@ -1,8 +1,11 @@
 package com.sy.finance.service;
 
 import com.sy.finance.domain.Userinfo;
+import com.sy.finance.domain.dto.UpdPassword;
 import com.sy.finance.domain.dto.UserLogDto;
 import com.sy.finance.domain.vo.LoginUserinfo;
+
+import javax.servlet.http.HttpServletRequest;
 
 public interface UserinfoService {
 
@@ -25,5 +28,12 @@ public interface UserinfoService {
      * @return
      */
     LoginUserinfo login(UserLogDto logDto);
+
+    /**
+     * 注销登陆
+     */
+    void logout(HttpServletRequest request);
+
+    void updPassword(UpdPassword updPassword);
 }
 

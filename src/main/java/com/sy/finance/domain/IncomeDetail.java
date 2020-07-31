@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value="com-sy-finance-domain-IncomeDetail")
 @Data
 public class IncomeDetail implements Serializable {
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="" ,required = true)
     private Integer id;
 
     /**

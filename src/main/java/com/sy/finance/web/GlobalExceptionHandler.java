@@ -34,7 +34,7 @@ public class GlobalExceptionHandler  {
     @ExceptionHandler(value = {GrabException.class})
     public RespBean serviceException(GrabException ex) {
         log.error("自定义抛出异常: "+ ex.getMessage());
-        return RespBean.fail(ex.getCode(), ex.getMessage());
+        return  RespBean.fail(ex.getCode(), ex.getMsg());
 
     }
 

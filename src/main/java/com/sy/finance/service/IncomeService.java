@@ -26,4 +26,6 @@ public interface IncomeService{
 
 
     int updateStatusById(Integer id,  Integer status);
+
+    int updateClearingById(Integer id, Integer clearing);
 }

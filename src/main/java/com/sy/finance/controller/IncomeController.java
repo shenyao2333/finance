@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/income")
-@Api(tags = "收入")
+@Api(tags = "账单管理")
 public class IncomeController {
 
 
@@ -39,7 +39,7 @@ public class IncomeController {
 
 
     @PostMapping("/addIncomeInfo")
-    @ApiOperation(value = "添加收入信息")
+    @ApiOperation(value = "添加账单信息")
     public RespBean addIncome(@RequestBody  AddIncomeInfoDto addIncomeInfoDto){
         incomeService.addIncome(addIncomeInfoDto);
         return RespBean.succeed("添加成功");
@@ -47,7 +47,7 @@ public class IncomeController {
 
 
     @PostMapping("/getIncomeList")
-    @ApiOperation(value = "获取收入列表")
+    @ApiOperation(value = "获取账单列表")
     public RespBean<List<Income>> getIncomeList(@RequestBody @Valid GetIncomeDto dto){
         Income income = new Income();
         BeanUtils.copyProperties(dto,income);
@@ -55,6 +55,14 @@ public class IncomeController {
         List<Income> incomes = incomeService.selectByAll(income);
         return  RespBean.succeed(incomes);
     }
+
+    @PostMapping("/updIncomeById")
+    @ApiOperation(value = "修改账单信息")
+    public RespBean updIncomeById(@RequestBody Income income){
+        incomeService.updateByPrimaryKeySelective(income);
+        return RespBean.succeed();
+    }
+
 
 
     @ApiOperation(value = "修改状态，主键id和status必传")
@@ -64,10 +72,19 @@ public class IncomeController {
         return RespBean.succeed();
     }
 
+    @ApiOperation(value = "修改账单结清状态; 0-未结清  1-结清")
+    @GetMapping("/updIncomeClearing")
+    public RespBean updIncomeClearing(@RequestParam(value = "id") Integer id , @RequestParam(value = "clearing")Integer clearing){
+        int i = incomeService.updateClearingById(id,clearing);
+        return RespBean.succeed();
+    }
+
+
+
 
 
     @PostMapping("/getIncomeDetailList")
-    @ApiOperation(value = "获取收入详情列表")
+    @ApiOperation(value = "获取账单详情列表")
     public RespBean<PageInfo<List<IncomeDetail>>> getIncomeDetailList(@RequestBody @Valid GetIncomDetailDto dto){
         IncomeDetail detail = new IncomeDetail();
         BeanUtils.copyProperties(dto,detail);
@@ -76,6 +93,26 @@ public class IncomeController {
         PageInfo<List<IncomeDetail>> listPageInfo = new PageInfo(incomeDetails);
         return RespBean.succeed(listPageInfo);
     }
+
+
+    @ApiOperation(value = "删除账单详细信息的记录")
+    @GetMapping("/delIncomeDetailById")
+    public RespBean delIncomeDetailById(@RequestParam(value = "id") Integer id){
+        incomeDetailService.deleteByPrimaryKey(id);
+        return RespBean.succeed();
+    }
+
+
+
+    @ApiOperation(value = "修改账单详细信息")
+    @PostMapping("/updIncomeDetailById")
+    public RespBean updIncomeDetailById(@RequestBody IncomeDetail incomeDetail){
+        incomeDetailService.updateByPrimaryKeySelective(incomeDetail);
+        return RespBean.succeed();
+    }
+
+
+
 
 
 

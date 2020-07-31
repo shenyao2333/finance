@@ -1,5 +1,6 @@
 package com.sy.finance.service.impl;
 
+import com.sy.finance.domain.dto.UpdPassword;
 import com.sy.finance.domain.dto.UserLogDto;
 import com.sy.finance.domain.vo.LoginUserinfo;
 import com.sy.finance.redis.RedisUtil;
@@ -7,6 +8,8 @@ import com.sy.finance.utils.JwtTokenUtil;
 import com.sy.finance.web.GrabException;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import com.sy.finance.mapper.UserinfoMapper;
 import com.sy.finance.domain.Userinfo;
 import com.sy.finance.service.UserinfoService;
@@ -66,6 +69,24 @@ public class UserinfoServiceImpl implements UserinfoService {
         return loginUserinfo;
     }
 
+    @Override
+    public void logout(HttpServletRequest request) {
+        String token = JwtTokenUtil.resolveToken(request);
+        if (token!=null){
+            redisUtil.del("token::"+redisUtil,token);
+        }
+
+    }
+
+    @Override
+    public void updPassword(UpdPassword updPassword) {
+        Userinfo userinfo = selectByPrimaryKey(updPassword.getId());
+        if (!userinfo.getUsername().equals(updPassword.getOldPwd())){
+            throw new GrabException(2003,"修改失败，原密码不对！");
+        }
+        userinfo.setPassword(updPassword.getNewPwd());
+        updateByPrimaryKeySelective(userinfo);
+    }
 
 
 }

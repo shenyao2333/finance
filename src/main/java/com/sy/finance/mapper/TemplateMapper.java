@@ -1,18 +1,10 @@
-package com.sy.finance.service;
+package com.sy.finance.mapper;
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 import com.sy.finance.domain.Template;
 
-import java.util.List;
-
-/**
- * @author sy
- * @date Created in 2020.7.28 21:42
- * @description
- */
-public interface TemplateService {
-
-    String templateFill(Integer id);
-
+public interface TemplateMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Template record);
@@ -26,5 +18,6 @@ public interface TemplateService {
     int updateByPrimaryKey(Template record);
 
     List<Template> selectByAll(Template template);
-}
 
+
+}
