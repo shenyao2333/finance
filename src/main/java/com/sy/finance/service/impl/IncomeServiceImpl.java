@@ -73,8 +73,8 @@ public class IncomeServiceImpl implements IncomeService{
         List<IncomeDetail> incomeDetailList = addIncomeInfoDto.getIncomeDetailList();
         for (IncomeDetail detail : incomeDetailList) {
             BigDecimal multiply = detail.getPrice().multiply(new BigDecimal(detail.getCount()));
-            detail.setPrices(multiply);
-            total =  total.add(multiply);
+            detail.setPrices(multiply.setScale(2, BigDecimal.ROUND_HALF_UP));
+            total =  total.add(multiply).setScale(2, BigDecimal.ROUND_HALF_UP);
         }
         Income income = new Income();
         BeanUtils.copyProperties(addIncomeInfoDto,income);
@@ -94,8 +94,8 @@ public class IncomeServiceImpl implements IncomeService{
         List<IncomeDetail> incomeDetailList = income.getIncomeDetailList();
         for (IncomeDetail detail : incomeDetailList) {
             BigDecimal multiply = detail.getPrice().multiply(new BigDecimal(detail.getCount()));
-            detail.setPrices(multiply);
-            total =  total.add(multiply);
+            detail.setPrices(multiply.setScale(2, BigDecimal.ROUND_HALF_UP));
+            total =  total.add(multiply).setScale(2, BigDecimal.ROUND_HALF_UP);
             incomeDetailService.updateByPrimaryKeySelective(detail);
         }
         Income incomes = new Income();
@@ -126,7 +126,7 @@ public class IncomeServiceImpl implements IncomeService{
      */
     private String getSeriNum(){
         SimpleDateFormat mm = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHH");
         Date date = new Date();
         String mmStr = mm.format(date);
         String dfStr = df.format(date);
