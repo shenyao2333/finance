@@ -3,12 +3,15 @@ package com.sy.finance.service.impl;
 import com.sy.finance.domain.IncomeDetail;
 import com.sy.finance.domain.dto.AddIncomeInfoDto;
 import com.sy.finance.redis.RedisUtil;
+import com.sy.finance.service.IncomeDetailService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.sy.finance.mapper.IncomeMapper;
 import com.sy.finance.domain.Income;
 import com.sy.finance.service.IncomeService;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +21,9 @@ public class IncomeServiceImpl implements IncomeService{
 
     @Resource
     private IncomeMapper incomeMapper;
+
+    @Resource
+    private IncomeDetailService incomeDetailService;
 
 
     @Resource
@@ -63,15 +69,42 @@ public class IncomeServiceImpl implements IncomeService{
 
     @Override
     public int addIncome(AddIncomeInfoDto addIncomeInfoDto) {
-        Income income = addIncomeInfoDto.getIncome();
+        BigDecimal total = new BigDecimal("0");
+        List<IncomeDetail> incomeDetailList = addIncomeInfoDto.getIncomeDetailList();
+        for (IncomeDetail detail : incomeDetailList) {
+            BigDecimal multiply = detail.getPrice().multiply(new BigDecimal(detail.getCount()));
+            detail.setPrices(multiply);
+            total =  total.add(multiply);
+        }
+        Income income = new Income();
+        BeanUtils.copyProperties(addIncomeInfoDto,income);
         income.setCreated(new Date());
         income.setSerialUmber(getSeriNum());
+        income.setTotalMoney(total);
         int insert = insert(income);
-        List<IncomeDetail> incomeDetailList = addIncomeInfoDto.getIncomeDetailList();
         for (IncomeDetail detail : incomeDetailList){
             detail.setParentId(income.getId());
         }
         return 0;
+    }
+
+    @Override
+    public void updIncomeInfoById(AddIncomeInfoDto income) {
+        BigDecimal total = new BigDecimal("0");
+        List<IncomeDetail> incomeDetailList = income.getIncomeDetailList();
+        for (IncomeDetail detail : incomeDetailList) {
+            BigDecimal multiply = detail.getPrice().multiply(new BigDecimal(detail.getCount()));
+            detail.setPrices(multiply);
+            total =  total.add(multiply);
+            incomeDetailService.updateByPrimaryKeySelective(detail);
+        }
+        Income incomes = new Income();
+        BeanUtils.copyProperties(income,incomes);
+        income.setTotalMoney(total);
+        int insert = updateByPrimaryKeySelective(incomes);
+        for (IncomeDetail detail : incomeDetailList){
+            detail.setParentId(income.getId());
+        }
     }
 
     @Override
@@ -83,6 +116,8 @@ public class IncomeServiceImpl implements IncomeService{
     public int updateClearingById(Integer id, Integer clearing) {
         return incomeMapper.updateClearingById(id,clearing);
     }
+
+
 
 
     /**

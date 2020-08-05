@@ -69,7 +69,8 @@ public class Income implements Serializable {
     private Integer clearing;
 
 
-
+    @ApiModelProperty(value="操作人")
+    private String operator;
 
 
     private static final long serialVersionUID = 1L;

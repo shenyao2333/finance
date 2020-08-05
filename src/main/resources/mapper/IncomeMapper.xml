@@ -13,10 +13,11 @@
     <result column="serial_umber" jdbcType="VARCHAR" property="serialUmber" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="clearing" jdbcType="INTEGER" property="clearing" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, client_name, company, phone, total_money, created, serial_umber, `status`, clearing
+    id, client_name, company, phone, total_money, created, serial_umber, `status`, clearing,operator
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -34,10 +35,10 @@
     <!--@mbg.generated-->
     insert into income (client_name, company, phone,
       total_money, created, serial_umber,
-      `status`, clearing)
+      `status`, clearing,operator)
     values (#{clientName,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
       #{totalMoney,jdbcType=DECIMAL}, #{created,jdbcType=TIMESTAMP}, #{serialUmber,jdbcType=VARCHAR},
-      #{status,jdbcType=INTEGER}, #{clearing,jdbcType=INTEGER})
+      #{status,jdbcType=INTEGER}, #{clearing,jdbcType=INTEGER},#{operator,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.finance.domain.Income" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -67,6 +68,10 @@
       <if test="clearing != null">
         clearing,
       </if>
+      <if test="operator != null">
+        operator,
+      </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="clientName != null">
@@ -92,6 +97,9 @@
       </if>
       <if test="clearing != null">
         #{clearing,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -123,6 +131,9 @@
       <if test="clearing != null">
         clearing = #{clearing,jdbcType=INTEGER},
       </if>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -136,7 +147,8 @@
       created = #{created,jdbcType=TIMESTAMP},
       serial_umber = #{serialUmber,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
-      clearing = #{clearing,jdbcType=INTEGER}
+      clearing = #{clearing,jdbcType=INTEGER},
+      operator = #{operator,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -174,6 +186,7 @@
                 and clearing=#{clearing,jdbcType=INTEGER}
             </if>
         </where>
+    order  by id desc
     </select>
 
 

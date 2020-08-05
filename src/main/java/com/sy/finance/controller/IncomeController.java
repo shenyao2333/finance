@@ -45,19 +45,27 @@ public class IncomeController {
         return RespBean.succeed("添加成功");
     }
 
+    @PostMapping("/updIncomeInfoById")
+    @ApiOperation(value = "修改账单信息")
+    public RespBean updIncomeInfoById(@RequestBody AddIncomeInfoDto income){
+        incomeService.updIncomeInfoById(income);
+        return RespBean.succeed();
+    }
+
 
     @PostMapping("/getIncomeList")
     @ApiOperation(value = "获取账单列表")
-    public RespBean<List<Income>> getIncomeList(@RequestBody @Valid GetIncomeDto dto){
+    public RespBean<PageInfo<List<Income>>> getIncomeList(@RequestBody @Valid GetIncomeDto dto){
         Income income = new Income();
         BeanUtils.copyProperties(dto,income);
         PageHelper.startPage(dto.getPage(),dto.getPageSize());
         List<Income> incomes = incomeService.selectByAll(income);
-        return  RespBean.succeed(incomes);
+        PageInfo<List<Income>> listPageInfo = new PageInfo(incomes);
+        return  RespBean.succeed(listPageInfo);
     }
 
     @PostMapping("/updIncomeById")
-    @ApiOperation(value = "修改账单信息")
+    @ApiOperation(value = "修改账单")
     public RespBean updIncomeById(@RequestBody Income income){
         incomeService.updateByPrimaryKeySelective(income);
         return RespBean.succeed();
@@ -67,7 +75,7 @@ public class IncomeController {
 
     @ApiOperation(value = "修改状态，主键id和status必传")
     @GetMapping("/updIncomeStatus")
-    public RespBean updIncomeStatus(@RequestParam(value = "id") Integer id , @RequestParam(value = "static")Integer status){
+    public RespBean updIncomeStatus(@RequestParam(value = "id") Integer id , @RequestParam(value = "status")Integer status){
         incomeService.updateStatusById(id,status);
         return RespBean.succeed();
     }

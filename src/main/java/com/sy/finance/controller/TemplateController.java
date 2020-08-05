@@ -58,12 +58,17 @@ public class TemplateController {
         return RespBean.succeed(templates);
     }
 
+
+
     @PostMapping("/addTemplateInfo")
     @ApiOperation(value = "添加模版信息")
     public RespBean addTemplateInfo(@RequestBody Template template){
         templateService.insert(template);
         return RespBean.succeed();
     }
+
+
+
 
 
 

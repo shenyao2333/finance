@@ -30,19 +30,19 @@ public class IncomeDetail implements Serializable {
     * 单价
     */
     @ApiModelProperty(value="单价")
-    private BigDecimal price;
+    private BigDecimal price = new BigDecimal("0") ;
 
     /**
     * 实际金额
     */
     @ApiModelProperty(value="实际金额")
-    private BigDecimal actualPrice;
+    private BigDecimal actualPrice=new BigDecimal("0") ;
 
     /**
     * 单数总价
     */
-    @ApiModelProperty(value="单数总价")
-    private BigDecimal prices;
+    @ApiModelProperty(value="单项总价")
+    private BigDecimal prices=new BigDecimal("0") ;
 
     /**
     * 状态 0-未结清  1-结清
