@@ -1,6 +1,8 @@
 package com.sy.finance.mapper;
 import java.math.BigDecimal;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sy.finance.domain.IncomeDetail;
@@ -23,7 +25,7 @@ public interface IncomeDetailMapper {
 
     List<IncomeDetail> selectByParentId(@Param("parentId")Integer parentId);
 
-
+    int insertList(@Param("list")List<IncomeDetail> list);
 
 
 }

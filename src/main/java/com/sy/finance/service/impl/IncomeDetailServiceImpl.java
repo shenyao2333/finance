@@ -6,6 +6,7 @@ import com.sy.finance.domain.IncomeDetail;
 import com.sy.finance.mapper.IncomeDetailMapper;
 import com.sy.finance.service.IncomeDetailService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,6 +53,14 @@ public class IncomeDetailServiceImpl implements IncomeDetailService{
     @Override
     public List<IncomeDetail> selectByParentId(Integer parentId) {
         return incomeDetailMapper.selectByParentId(parentId);
+    }
+
+    @Override
+    public int insertList(ArrayList<IncomeDetail> incomeDetails) {
+        if (incomeDetails==null||incomeDetails.size()<1){
+            return 0;
+        }
+        return incomeDetailMapper.insertList(incomeDetails);
     }
 
 }

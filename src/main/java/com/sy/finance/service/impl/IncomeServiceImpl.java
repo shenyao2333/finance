@@ -13,6 +13,7 @@ import com.sy.finance.service.IncomeService;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -82,9 +83,12 @@ public class IncomeServiceImpl implements IncomeService{
         income.setSerialUmber(getSeriNum());
         income.setTotalMoney(total);
         int insert = insert(income);
+        ArrayList<IncomeDetail> incomeDetails = new ArrayList<>();
         for (IncomeDetail detail : incomeDetailList){
             detail.setParentId(income.getId());
+            incomeDetails.add(detail);
         }
+        int i = incomeDetailService.insertList(incomeDetails);
         return 0;
     }
 
@@ -134,9 +138,10 @@ public class IncomeServiceImpl implements IncomeService{
         if (o!=null){
             Integer i = Integer.parseInt(o.toString())+1;
             String s = fillLen(i+"");
+            redisUtil.set("seriNum::" + mmStr,i);
             return dfStr+s;
         }
-        redisUtil.set("seriNum::",1);
+        redisUtil.set("seriNum::" + mmStr,1);
         return dfStr+"0001";
 
     }

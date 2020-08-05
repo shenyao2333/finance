@@ -2,6 +2,7 @@ package com.sy.finance.service;
 
 import com.sy.finance.domain.IncomeDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface IncomeDetailService{
@@ -23,4 +24,5 @@ public interface IncomeDetailService{
 
     List<IncomeDetail> selectByParentId(Integer parentId);
 
+    int insertList(ArrayList<IncomeDetail> incomeDetails);
 }
