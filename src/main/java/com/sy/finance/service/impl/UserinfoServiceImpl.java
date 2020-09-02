@@ -62,7 +62,7 @@ public class UserinfoServiceImpl implements UserinfoService {
         }
         LoginUserinfo loginUserinfo = new LoginUserinfo();
         String token = JwtTokenUtil.createToken(login.getUsername());
-        redisUtil.set("token::"+redisUtil,login,60*60*6);
+        redisUtil.set("token::"+token,login,60*60*6);
         loginUserinfo.setUserinfo(login);
         loginUserinfo.setToken(token);
         loginUserinfo.setValidTime(60*60*6L);
@@ -73,7 +73,7 @@ public class UserinfoServiceImpl implements UserinfoService {
     public void logout(HttpServletRequest request) {
         String token = JwtTokenUtil.resolveToken(request);
         if (token!=null){
-            redisUtil.del("token::"+redisUtil,token);
+            redisUtil.del("token::"+token,token);
         }
 
     }

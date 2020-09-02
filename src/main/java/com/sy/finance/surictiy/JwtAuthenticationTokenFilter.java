@@ -2,6 +2,7 @@ package com.sy.finance.surictiy;
 
 
 import com.alibaba.fastjson.JSON;
+import com.sy.finance.domain.Userinfo;
 import com.sy.finance.redis.RedisUtil;
 import com.sy.finance.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -39,21 +40,16 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String token = JwtTokenUtil.resolveToken(httpServletRequest);
         if (token!=null){
-            Map<Object, Object> hget = redisUtil.hget(token);
-            if (hget!=null){
+            Userinfo o = (Userinfo)redisUtil.get("token::" + token);
+            if (o!=null){
                 String username = JwtTokenUtil.getUsername(token);
                 SelfUserDetails userDetails = new SelfUserDetails();
                 userDetails.setUserName(username);
-                if (hget.get("roles")!=null){
-                    List<GrantedAuthority> roles = JSON.parseArray(hget.get("roles").toString(), GrantedAuthority.class);
-                    userDetails.setAuthorities(new HashSet<>(roles));
-                }
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-        //throw new GrabException(-1,"sdf");
         filterChain.doFilter(httpServletRequest, httpServletResponse);
 
     }

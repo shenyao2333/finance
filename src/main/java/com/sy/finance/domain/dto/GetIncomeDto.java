@@ -44,7 +44,7 @@ public class GetIncomeDto {
      * 订单状态  默认为1，1-正常 ，0-删除
      */
     @ApiModelProperty(value="订单状态  默认为1，1-正常 ，0-删除")
-    private Integer status=1;
+    private Integer status;
 
     /**
      * 结算状态，状态 0-未结清  1-结清
@@ -52,6 +52,12 @@ public class GetIncomeDto {
     @ApiModelProperty(value="结算状态，默认为0，状态 0-未结清  1-结清")
     private Integer clearing;
 
+
+    @ApiModelProperty(value = "查询时间-开始时间")
+    private String startTime;
+
+    @ApiModelProperty(value = "查询时间-结束时间")
+    private String endTime;
 
 
 

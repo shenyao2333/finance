@@ -162,7 +162,7 @@
                 and id=#{id,jdbcType=INTEGER}
             </if>
             <if test="clientName != null and clientName != '' ">
-                and client_name=#{clientName,jdbcType=VARCHAR}
+                and client_name like concat('%',#{clientName,jdbcType=VARCHAR},'%')
             </if>
             <if test="company != null and company != ''">
                 and company=#{company,jdbcType=VARCHAR}
@@ -185,6 +185,12 @@
             <if test="clearing != null and clearing != ''">
                 and clearing=#{clearing,jdbcType=INTEGER}
             </if>
+          <if test="startTime != null and startTime != ''">
+            and DATE_FORMAT(created,'%Y-%m-%d')  &gt;= #{startTime}
+          </if>
+          <if test="endTime != null  and endTime != ''">
+            and DATE_FORMAT(created,'%Y-%m-%d')  &lt;=  #{endTime}
+          </if>
         </where>
     order  by id desc
     </select>

@@ -72,6 +72,10 @@ public class Income implements Serializable {
     @ApiModelProperty(value="操作人")
     private String operator;
 
+    private String startTime;
+
+    private String endTime;
+
 
     private static final long serialVersionUID = 1L;
 }

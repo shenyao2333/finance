@@ -82,6 +82,8 @@ public class IncomeServiceImpl implements IncomeService{
         income.setCreated(new Date());
         income.setSerialUmber(getSeriNum());
         income.setTotalMoney(total);
+        income.setStatus(1);
+        income.setClearing(0);
         int insert = insert(income);
         ArrayList<IncomeDetail> incomeDetails = new ArrayList<>();
         for (IncomeDetail detail : incomeDetailList){
@@ -96,10 +98,15 @@ public class IncomeServiceImpl implements IncomeService{
     public void updIncomeInfoById(AddIncomeInfoDto income) {
         BigDecimal total = new BigDecimal("0");
         List<IncomeDetail> incomeDetailList = income.getIncomeDetailList();
+        ArrayList<IncomeDetail> incomeDetails = new ArrayList<>();
         for (IncomeDetail detail : incomeDetailList) {
             BigDecimal multiply = detail.getPrice().multiply(new BigDecimal(detail.getCount()));
             detail.setPrices(multiply.setScale(2, BigDecimal.ROUND_HALF_UP));
             total =  total.add(multiply).setScale(2, BigDecimal.ROUND_HALF_UP);
+            if(detail.getId()==null||detail.getId()==0){
+                incomeDetails.add(detail);
+                continue;
+            }
             incomeDetailService.updateByPrimaryKeySelective(detail);
         }
         Income incomes = new Income();
@@ -109,6 +116,7 @@ public class IncomeServiceImpl implements IncomeService{
         for (IncomeDetail detail : incomeDetailList){
             detail.setParentId(income.getId());
         }
+        incomeDetailService.insertList(incomeDetails);
     }
 
     @Override

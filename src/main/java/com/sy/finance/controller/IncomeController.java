@@ -46,7 +46,7 @@ public class IncomeController {
     }
 
     @PostMapping("/updIncomeInfoById")
-    @ApiOperation(value = "修改账单信息")
+    @ApiOperation(value = "批量修改账单信息")
     public RespBean updIncomeInfoById(@RequestBody AddIncomeInfoDto income){
         incomeService.updIncomeInfoById(income);
         return RespBean.succeed();
@@ -116,7 +116,7 @@ public class IncomeController {
 
 
 
-    @ApiOperation(value = "修改账单详细信息")
+    @ApiOperation(value = "单条修改账单详细信息")
     @PostMapping("/updIncomeDetailById")
     public RespBean updIncomeDetailById(@RequestBody IncomeDetail incomeDetail){
         incomeDetailService.updateByPrimaryKeySelective(incomeDetail);
