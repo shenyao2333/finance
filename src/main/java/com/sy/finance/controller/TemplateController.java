@@ -59,6 +59,15 @@ public class TemplateController {
     }
 
 
+    @GetMapping("/getTemplateById")
+    @ApiOperation(value = "根据id获取模版信息")
+    public RespBean<Template> getTemplateById(Integer id){
+        Template template = templateService.selectByPrimaryKey(id);
+        return RespBean.succeed(template);
+
+    }
+
+
 
     @PostMapping("/addTemplateInfo")
     @ApiOperation(value = "添加模版信息")
