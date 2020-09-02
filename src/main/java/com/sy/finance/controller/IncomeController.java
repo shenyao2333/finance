@@ -97,6 +97,10 @@ public class IncomeController {
         IncomeDetail detail = new IncomeDetail();
         BeanUtils.copyProperties(dto,detail);
         PageHelper.startPage(dto.getPage(),dto.getPageSize());
+        detail.setPrice(null);
+        detail.setPrices(null);
+        detail.setActualPrice(null);
+        detail.setClearing(null);
         List<IncomeDetail> incomeDetails = incomeDetailService.selectByAll(detail);
         PageInfo<List<IncomeDetail>> listPageInfo = new PageInfo(incomeDetails);
         return RespBean.succeed(listPageInfo);
