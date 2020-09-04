@@ -7,6 +7,7 @@ import com.sy.finance.domain.IncomeDetail;
 import com.sy.finance.domain.dto.AddIncomeInfoDto;
 import com.sy.finance.domain.dto.GetIncomDetailDto;
 import com.sy.finance.domain.dto.GetIncomeDto;
+import com.sy.finance.domain.vo.IncomesVo;
 import com.sy.finance.service.IncomeDetailService;
 import com.sy.finance.service.IncomeService;
 import com.sy.finance.web.RespBean;
@@ -59,6 +60,13 @@ public class IncomeController {
         Income income = new Income();
         BeanUtils.copyProperties(dto,income);
         PageHelper.startPage(dto.getPage(),dto.getPageSize());
+        String[] times = dto.getTimes();
+        if (times!=null){
+            income.setStartTime(times[0]);
+            if (times.length>1){
+                income.setEndTime(times[1]);
+            }
+        }
         List<Income> incomes = incomeService.selectByAll(income);
         PageInfo<List<Income>> listPageInfo = new PageInfo(incomes);
         return  RespBean.succeed(listPageInfo);
@@ -93,7 +101,7 @@ public class IncomeController {
 
     @PostMapping("/getIncomeDetailList")
     @ApiOperation(value = "获取账单详情列表")
-    public RespBean<PageInfo<List<IncomeDetail>>> getIncomeDetailList(@RequestBody @Valid GetIncomDetailDto dto){
+    public RespBean<PageInfo<IncomesVo>> getIncomeDetailList(@RequestBody @Valid GetIncomDetailDto dto){
         IncomeDetail detail = new IncomeDetail();
         BeanUtils.copyProperties(dto,detail);
         PageHelper.startPage(dto.getPage(),dto.getPageSize());
@@ -102,14 +110,25 @@ public class IncomeController {
         detail.setActualPrice(null);
         detail.setClearing(null);
         List<IncomeDetail> incomeDetails = incomeDetailService.selectByAll(detail);
-        PageInfo<List<IncomeDetail>> listPageInfo = new PageInfo(incomeDetails);
+
+
+        Income income = incomeService.selectByPrimaryKey(dto.getParentId());
+        IncomesVo incomesVo = new IncomesVo();
+        BeanUtils.copyProperties(income,incomesVo);
+        incomesVo.setList(incomeDetails);
+
+
+        PageInfo<IncomesVo> listPageInfo = new PageInfo(incomeDetails);
+
+
+
         return RespBean.succeed(listPageInfo);
     }
 
 
     @ApiOperation(value = "删除账单详细信息的记录")
     @GetMapping("/delIncomeDetailById")
-    public RespBean delIncomeDetailById(@RequestParam(value = "id") Integer id){
+    public RespBean delIncomeDetailById(Integer id){
         incomeDetailService.deleteByPrimaryKey(id);
         return RespBean.succeed();
     }

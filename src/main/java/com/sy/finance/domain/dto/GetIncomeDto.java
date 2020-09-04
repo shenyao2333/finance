@@ -59,6 +59,11 @@ public class GetIncomeDto {
     @ApiModelProperty(value = "查询时间-结束时间")
     private String endTime;
 
+    @ApiModelProperty(value = "查询时间范围")
+    private String[] times;
+
+    @ApiModelProperty(value = "id")
+    private Integer id;
 
 
 

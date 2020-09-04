@@ -47,7 +47,7 @@ public class TemplateServiceImpl implements TemplateService {
 
         map.put("client", income.getClientName());
         map.put("phone", income.getPhone());
-        map.put("staff", "李锐明");
+        map.put("staff", income.getOperator());
         map.put("time", df.format(new Date()));
         map.put("serialNum", income.getSerialUmber());
         map.put("total", income.getTotalMoney());

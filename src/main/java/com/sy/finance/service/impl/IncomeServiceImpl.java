@@ -117,6 +117,10 @@ public class IncomeServiceImpl implements IncomeService{
             detail.setParentId(income.getId());
         }
         incomeDetailService.insertList(incomeDetails);
+
+
+
+
     }
 
     @Override
