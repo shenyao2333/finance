@@ -62,7 +62,9 @@ public class IncomeController {
         PageHelper.startPage(dto.getPage(),dto.getPageSize());
         String[] times = dto.getTimes();
         if (times!=null){
-            income.setStartTime(times[0]);
+            if (times.length>0){
+                income.setStartTime(times[0]);
+            }
             if (times.length>1){
                 income.setEndTime(times[1]);
             }
@@ -101,7 +103,7 @@ public class IncomeController {
 
     @PostMapping("/getIncomeDetailList")
     @ApiOperation(value = "获取账单详情列表")
-    public RespBean<PageInfo<IncomesVo>> getIncomeDetailList(@RequestBody @Valid GetIncomDetailDto dto){
+    public RespBean<IncomesVo> getIncomeDetailList(@RequestBody @Valid GetIncomDetailDto dto){
         IncomeDetail detail = new IncomeDetail();
         BeanUtils.copyProperties(dto,detail);
         PageHelper.startPage(dto.getPage(),dto.getPageSize());
@@ -114,15 +116,12 @@ public class IncomeController {
 
         Income income = incomeService.selectByPrimaryKey(dto.getParentId());
         IncomesVo incomesVo = new IncomesVo();
-        BeanUtils.copyProperties(income,incomesVo);
-        incomesVo.setList(incomeDetails);
-
 
         PageInfo<IncomesVo> listPageInfo = new PageInfo(incomeDetails);
 
-
-
-        return RespBean.succeed(listPageInfo);
+        incomesVo.setList(listPageInfo);
+        incomesVo.setIncome(income);
+        return RespBean.succeed(incomesVo);
     }
 
 
