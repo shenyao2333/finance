@@ -111,7 +111,7 @@ public class IncomeServiceImpl implements IncomeService{
         }
         Income incomes = new Income();
         BeanUtils.copyProperties(income,incomes);
-        income.setTotalMoney(total);
+        incomes.setTotalMoney(total);
         int insert = updateByPrimaryKeySelective(incomes);
         for (IncomeDetail detail : incomeDetailList){
             detail.setParentId(income.getId());
