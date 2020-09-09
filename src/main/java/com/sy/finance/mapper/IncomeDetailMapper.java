@@ -27,5 +27,6 @@ public interface IncomeDetailMapper {
 
     int insertList(@Param("list")List<IncomeDetail> list);
 
+    BigDecimal sumMoney (@Param("parentId")Integer parentId);
 
 }

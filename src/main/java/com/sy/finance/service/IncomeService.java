@@ -3,6 +3,7 @@ package com.sy.finance.service;
 import com.sy.finance.domain.Income;
 import com.sy.finance.domain.dto.AddIncomeInfoDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface IncomeService{
@@ -30,4 +31,6 @@ public interface IncomeService{
     int updateClearingById(Integer id, Integer clearing);
 
     void updIncomeInfoById(AddIncomeInfoDto income);
+
+    int updateTotalMoneyById(Integer id, BigDecimal totalMoney);
 }

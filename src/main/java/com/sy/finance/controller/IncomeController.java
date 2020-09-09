@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -128,7 +129,13 @@ public class IncomeController {
     @ApiOperation(value = "删除账单详细信息的记录")
     @GetMapping("/delIncomeDetailById")
     public RespBean delIncomeDetailById(Integer id){
+        IncomeDetail detail = incomeDetailService.selectByPrimaryKey(id);
+        if (detail==null){
+            return RespBean.succeed();
+        }
+        BigDecimal bigDecimal = incomeDetailService.sumMoney(detail.getParentId());
         incomeDetailService.deleteByPrimaryKey(id);
+        incomeService.updateTotalMoneyById(id,bigDecimal);
         return RespBean.succeed();
     }
 

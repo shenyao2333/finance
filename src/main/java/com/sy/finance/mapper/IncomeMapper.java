@@ -30,4 +30,10 @@ public interface IncomeMapper {
 
     int updateClearingById(@Param("id")Integer id,@Param("updatedClearing")Integer updatedClearing);
 
+
+
+    int updateTotalMoneyById(@Param("id")Integer id,@Param("totalMoney")BigDecimal totalMoney);
+
+
+
 }

@@ -6,6 +6,7 @@ import com.sy.finance.domain.IncomeDetail;
 import com.sy.finance.mapper.IncomeDetailMapper;
 import com.sy.finance.service.IncomeDetailService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +62,11 @@ public class IncomeDetailServiceImpl implements IncomeDetailService{
             return 0;
         }
         return incomeDetailMapper.insertList(incomeDetails);
+    }
+
+    @Override
+    public BigDecimal sumMoney(Integer parentId) {
+        return incomeDetailMapper.sumMoney(parentId);
     }
 
 }

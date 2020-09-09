@@ -2,6 +2,7 @@ package com.sy.finance.service;
 
 import com.sy.finance.domain.IncomeDetail;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,4 +26,7 @@ public interface IncomeDetailService{
     List<IncomeDetail> selectByParentId(Integer parentId);
 
     int insertList(ArrayList<IncomeDetail> incomeDetails);
+
+
+    BigDecimal sumMoney (Integer parentId);
 }

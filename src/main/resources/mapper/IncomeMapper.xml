@@ -210,4 +210,12 @@
         set clearing=#{updatedClearing,jdbcType=INTEGER}
         where id=#{id,jdbcType=INTEGER}
     </update>
+
+
+  <update id="updateTotalMoneyById">
+    update income
+    set ttotal_money=#{totalMoney,jdbcType=DECIMAL}
+    where id=#{id,jdbcType=INTEGER}
+  </update>
+
 </mapper>

@@ -96,13 +96,11 @@ public class IncomeServiceImpl implements IncomeService{
 
     @Override
     public void updIncomeInfoById(AddIncomeInfoDto income) {
-        BigDecimal total = new BigDecimal("0");
         List<IncomeDetail> incomeDetailList = income.getIncomeDetailList();
         ArrayList<IncomeDetail> incomeDetails = new ArrayList<>();
         for (IncomeDetail detail : incomeDetailList) {
             BigDecimal multiply = detail.getPrice().multiply(new BigDecimal(detail.getCount()));
             detail.setPrices(multiply.setScale(2, BigDecimal.ROUND_HALF_UP));
-            total =  total.add(multiply).setScale(2, BigDecimal.ROUND_HALF_UP);
             if(detail.getId()==null||detail.getId()==0){
                 incomeDetails.add(detail);
                 continue;
@@ -111,16 +109,19 @@ public class IncomeServiceImpl implements IncomeService{
         }
         Income incomes = new Income();
         BeanUtils.copyProperties(income,incomes);
-        incomes.setTotalMoney(total);
         int insert = updateByPrimaryKeySelective(incomes);
         for (IncomeDetail detail : incomeDetailList){
             detail.setParentId(income.getId());
         }
         incomeDetailService.insertList(incomeDetails);
+        BigDecimal bigDecimal = incomeDetailService.sumMoney(income.getId());
+        updateTotalMoneyById(income.getId(),bigDecimal);
 
+    }
 
-
-
+    @Override
+    public int updateTotalMoneyById(Integer id, BigDecimal totalMoney) {
+        return incomeMapper.updateTotalMoneyById(id,totalMoney);
     }
 
     @Override
