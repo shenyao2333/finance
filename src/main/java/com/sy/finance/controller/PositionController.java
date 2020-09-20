@@ -69,7 +69,7 @@ public class PositionController  {
     }
 
     @GetMapping("/getAll")
-    @ApiOperation(value = "获取全部")
+    @ApiOperation(value = "获取全部操作人员")
     public RespBean<List<Position>> getAll(){
         List<Position> positions = positionService.selectByAll(null);
         return RespBean.succeed(positions);

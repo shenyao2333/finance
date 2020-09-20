@@ -84,7 +84,9 @@ public class UserController {
     @GetMapping("/selectByPrimaryKey")
     @ApiOperation(value = "根据id获取用户信息")
     public RespBean sdf(@RequestParam Integer id){
+
         Userinfo userinfo = userinfoService.selectByPrimaryKey(id);
+        userinfo.setPassword(null);
         return RespBean.succeed(userinfo);
     }
 

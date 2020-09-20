@@ -21,6 +21,9 @@ public interface UserinfoMapper {
 
     Userinfo login(UserLogDto logDto);
 
+
+
+
     List<Userinfo> selectByAll(Userinfo userinfo);
 
 
