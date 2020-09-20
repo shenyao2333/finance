@@ -156,7 +156,7 @@ public class RespBean<T> implements Serializable {
     }
 
     public static RespBean succeed(){
-        return new RespBean(ErrorEnum.SUCCEED.getCode(),true,null,null);
+        return new RespBean(ErrorEnum.SUCCEED.getCode(),true,"处理成功",null);
     }
 
     public static <T> RespBean<T> succeed   (T data){

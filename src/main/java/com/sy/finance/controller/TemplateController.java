@@ -34,7 +34,7 @@ public class TemplateController {
         return RespBean.succeed(templateService.templateFill(id));
     }
 
-    @GetMapping("/upload")
+    @PostMapping("/upload")
     @ApiOperation(value = "文件上传")
     public RespBean fileUpload(MultipartFile file){
         String test = OssUtil.upload(file, "test");

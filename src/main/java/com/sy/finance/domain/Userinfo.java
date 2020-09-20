@@ -1,5 +1,6 @@
 package com.sy.finance.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -61,6 +62,7 @@ public class Userinfo implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm" ,timezone = "GMT+8")
     private Date created;
 
     private static final long serialVersionUID = 1L;

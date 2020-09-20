@@ -14,6 +14,8 @@ import com.sy.finance.mapper.UserinfoMapper;
 import com.sy.finance.domain.Userinfo;
 import com.sy.finance.service.UserinfoService;
 
+import java.util.List;
+
 @Service
 public class UserinfoServiceImpl implements UserinfoService {
 
@@ -81,11 +83,19 @@ public class UserinfoServiceImpl implements UserinfoService {
     @Override
     public void updPassword(UpdPassword updPassword) {
         Userinfo userinfo = selectByPrimaryKey(updPassword.getId());
-        if (!userinfo.getUsername().equals(updPassword.getOldPwd())){
+        if (userinfo==null){
+            throw new GrabException(2003,"用户信息错误");
+        }
+        if (!userinfo.getPassword().equals(updPassword.getOldPwd())){
             throw new GrabException(2003,"修改失败，原密码不对！");
         }
         userinfo.setPassword(updPassword.getNewPwd());
         updateByPrimaryKeySelective(userinfo);
+    }
+
+    @Override
+    public List<Userinfo> selectByAll(Userinfo userinfo) {
+        return userinfoMapper.selectByAll(userinfo);
     }
 
 

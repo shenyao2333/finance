@@ -6,6 +6,7 @@ import com.sy.finance.domain.dto.UserLogDto;
 import com.sy.finance.domain.vo.LoginUserinfo;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public interface UserinfoService {
 
@@ -35,5 +36,7 @@ public interface UserinfoService {
     void logout(HttpServletRequest request);
 
     void updPassword(UpdPassword updPassword);
+
+    List<Userinfo> selectByAll(Userinfo userinfo);
 }
 

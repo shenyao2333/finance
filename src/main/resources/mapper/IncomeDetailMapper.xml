@@ -197,7 +197,7 @@
     </insert>
 
     <select id="sumMoney" resultType="java.math.BigDecimal">
-        select sum(prices)  from income_detail where parent_id = #{}
+        select sum(prices)  from income_detail where parent_id = #{parentId}
     </select>
 
 

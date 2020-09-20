@@ -214,7 +214,7 @@
 
   <update id="updateTotalMoneyById">
     update income
-    set ttotal_money=#{totalMoney,jdbcType=DECIMAL}
+    set total_money=#{totalMoney,jdbcType=DECIMAL}
     where id=#{id,jdbcType=INTEGER}
   </update>
 

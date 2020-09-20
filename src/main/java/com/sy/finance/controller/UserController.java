@@ -1,5 +1,8 @@
 package com.sy.finance.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.sy.finance.domain.Income;
 import com.sy.finance.domain.Userinfo;
 import com.sy.finance.domain.dto.UpdPassword;
 import com.sy.finance.domain.dto.UpdUserInfo;
@@ -14,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author sy
@@ -63,6 +67,35 @@ public class UserController {
         userinfoService.insert(userinfo);
         return RespBean.succeed();
     }
+
+
+    @GetMapping("/getUserInfoList")
+    @ApiOperation(value = "获取用户列表")
+    public  RespBean<PageInfo<List<Userinfo>>> getUserInfoList(@RequestParam Integer page,@RequestParam Integer pageSize,@RequestParam(required = false) String phone,@RequestParam(required = false) String userName){
+        PageHelper.startPage(page,pageSize);
+        Userinfo userinfo = new Userinfo();
+        userinfo.setPhone(phone);
+        userinfo.setUsername(userName);
+        List<Userinfo> userinfos = userinfoService.selectByAll(userinfo);
+        PageInfo<List<Userinfo>> listPageInfo = new PageInfo(userinfos);
+        return RespBean.succeed(listPageInfo);
+    }
+
+    @GetMapping("/selectByPrimaryKey")
+    @ApiOperation(value = "根据id获取用户信息")
+    public RespBean sdf(@RequestParam Integer id){
+        Userinfo userinfo = userinfoService.selectByPrimaryKey(id);
+        return RespBean.succeed(userinfo);
+    }
+
+    @GetMapping("/detById")
+    @ApiOperation(value = "id删除")
+    public RespBean detById(@RequestParam Integer id){
+        userinfoService.deleteByPrimaryKey(id);
+        return RespBean.succeed();
+    }
+
+
 
 
 }

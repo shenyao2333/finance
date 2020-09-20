@@ -133,9 +133,9 @@ public class IncomeController {
         if (detail==null){
             return RespBean.succeed();
         }
-        BigDecimal bigDecimal = incomeDetailService.sumMoney(detail.getParentId());
         incomeDetailService.deleteByPrimaryKey(id);
-        incomeService.updateTotalMoneyById(id,bigDecimal);
+        BigDecimal bigDecimal = incomeDetailService.sumMoney(detail.getParentId());
+        incomeService.updateTotalMoneyById(detail.getParentId(),bigDecimal);
         return RespBean.succeed();
     }
 
