@@ -47,7 +47,6 @@ public class Income implements Serializable {
     * 创建时间
     */
     @ApiModelProperty(value="创建时间")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm" ,timezone = "GMT+8")
     private Date created;
 
     /**
@@ -71,6 +70,9 @@ public class Income implements Serializable {
 
     @ApiModelProperty(value="操作人")
     private String operator;
+
+    @ApiModelProperty(value="更新时间")
+    private Date  updated;
 
     private String startTime;
 

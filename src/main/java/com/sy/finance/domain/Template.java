@@ -3,7 +3,12 @@ package com.sy.finance.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @ApiModel(value="com-sy-finance-domain-Template")
 @Data
@@ -37,6 +42,16 @@ public class Template implements Serializable {
     */
     @ApiModelProperty(value="url")
     private String fileUrl;
+
+    @ApiModelProperty(value="创建时间")
+    private Date created;
+
+    @ApiModelProperty(value="更新时间")
+    private Date updated;
+
+    @NotNull
+    @ApiModelProperty(value="最大行数",required = true)
+    private  Integer maxLine;
 
     private static final long serialVersionUID = 1L;
 }

@@ -10,10 +10,11 @@
     <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="sequence" jdbcType="INTEGER" property="sequence" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, user_name, `position`, created, sex, `sequence`
+    id, user_name, `position`, created, sex, `sequence` ,updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -130,6 +131,6 @@
                 and `sequence`=#{sequence,jdbcType=INTEGER}
             </if>
         </where>
-     order  by `sequence` asc
+      order  by `sequence` asc
     </select>
 </mapper>

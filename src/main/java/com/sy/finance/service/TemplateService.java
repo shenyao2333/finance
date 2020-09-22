@@ -26,5 +26,13 @@ public interface TemplateService {
     int updateByPrimaryKey(Template record);
 
     List<Template> selectByAll(Template template);
+
+
+    /**
+     * 获取最合适的模版
+     * @param line
+     * @return
+     */
+    Template  getSuitableByLine(Integer line);
 }
 

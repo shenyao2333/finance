@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.annotation.MultipartConfig;
+import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,7 +46,8 @@ public class TemplateController {
 
     @PostMapping("/updTemplateInfo")
     @ApiOperation(value = "修改模版信息")
-    public RespBean updTemplateInfo(@RequestBody Template template){
+    public RespBean updTemplateInfo(@RequestBody @Valid Template template){
+        template.setUpdated(new Date());
         templateService.updateByPrimaryKeySelective(template);
         return RespBean.succeed();
     }
@@ -71,7 +74,9 @@ public class TemplateController {
 
     @PostMapping("/addTemplateInfo")
     @ApiOperation(value = "添加模版信息")
-    public RespBean addTemplateInfo(@RequestBody Template template){
+    public RespBean addTemplateInfo(@RequestBody @Valid Template template){
+        template.setCreated(new Date());
+        template.setUpdated(new Date());
         templateService.insert(template);
         return RespBean.succeed();
     }

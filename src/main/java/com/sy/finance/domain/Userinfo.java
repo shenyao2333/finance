@@ -62,8 +62,12 @@ public class Userinfo implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm" ,timezone = "GMT+8")
     private Date created;
+
+
+    @ApiModelProperty(value = "更新时间")
+    private Date updated;
+
 
     private static final long serialVersionUID = 1L;
 }

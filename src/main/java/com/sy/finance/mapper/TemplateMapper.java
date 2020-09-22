@@ -1,5 +1,7 @@
 package com.sy.finance.mapper;
+
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 import com.sy.finance.domain.Template;
@@ -19,5 +21,9 @@ public interface TemplateMapper {
 
     List<Template> selectByAll(Template template);
 
+
+    Template getApproachByLine(@Param("line") Integer line);
+
+    Template getMaxLine();
 
 }

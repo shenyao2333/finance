@@ -29,8 +29,10 @@ public class Position implements Serializable {
     * 创建时间
     */
     @ApiModelProperty(value="创建时间")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm" ,timezone = "GMT+8")
     private Date created;
+
+    @ApiModelProperty(value="更新时间")
+    private Date updated;
 
     /**
     * 性别0-女，1-男
@@ -43,6 +45,7 @@ public class Position implements Serializable {
     */
     @ApiModelProperty(value="顺序")
     private Integer sequence;
+
 
     private static final long serialVersionUID = 1L;
 }

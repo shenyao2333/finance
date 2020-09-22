@@ -9,10 +9,13 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="file_url" jdbcType="VARCHAR" property="fileUrl" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="max_line" jdbcType="INTEGER" property="maxLine" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, file_type, remark, file_name, file_url
+    id, file_type, remark, file_name, file_url,created,updated,max_line
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -29,9 +32,9 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.finance.domain.Template" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into `template` (file_type, remark, file_name,
-      file_url)
+      file_url,created,updated,max_line)
     values (#{fileType,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR},
-      #{fileUrl,jdbcType=VARCHAR})
+      #{fileUrl,jdbcType=VARCHAR},#{created,jdbcType=TIMESTAMP},#{updated,jdbcType=TIMESTAMP},#{maxLine,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.finance.domain.Template" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -49,6 +52,15 @@
       <if test="fileUrl != null">
         file_url,
       </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="maxLine != null">
+        max_line,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="fileType != null">
@@ -62,6 +74,15 @@
       </if>
       <if test="fileUrl != null">
         #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxLine != null">
+        #{maxLine,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -81,6 +102,15 @@
       <if test="fileUrl != null">
         file_url = #{fileUrl,jdbcType=VARCHAR},
       </if>
+      <if test="created != null">
+        created =  #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated =  #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxLine != null">
+        max_line = #{maxLine,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -90,7 +120,10 @@
     set file_type = #{fileType,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       file_name = #{fileName,jdbcType=VARCHAR},
-      file_url = #{fileUrl,jdbcType=VARCHAR}
+      file_url = #{fileUrl,jdbcType=VARCHAR},
+      created =  #{created,jdbcType=TIMESTAMP},
+      updated =  #{updated,jdbcType=TIMESTAMP},
+      max_line = #{maxLine,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -115,6 +148,23 @@
             <if test="fileUrl != null">
                 and file_url=#{fileUrl,jdbcType=VARCHAR}
             </if>
+          <if test="fileUrl != null">
+                and max_line = #{maxLine,jdbcType=INTEGER}
+          </if>
+
         </where>
     </select>
+    <select id="getApproachByLine" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from `template`
+      where  max_line &lt;= #{line,jdbcType=INTEGER}
+      order by max_line asc limit 1
+    </select>
+  <select id="getMaxLine" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from `template`
+    order by max_line desc limit 1
+  </select>
 </mapper>

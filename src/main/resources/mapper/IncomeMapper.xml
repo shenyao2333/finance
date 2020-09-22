@@ -14,10 +14,11 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="clearing" jdbcType="INTEGER" property="clearing" />
     <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, client_name, company, phone, total_money, created, serial_umber, `status`, clearing,operator
+    id, client_name, company, phone, total_money, created, serial_umber, `status`, clearing,operator,updated
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->

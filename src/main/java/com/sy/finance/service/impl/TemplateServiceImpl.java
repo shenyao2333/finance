@@ -42,7 +42,6 @@ public class TemplateServiceImpl implements TemplateService {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Income income = incomeService.selectByPrimaryKey(id);
         List<IncomeDetail> incomeDetails = incomeDetailService.selectByParentId(id);
-
         HashMap<String, Object> map = new HashMap<>();
 
         map.put("client", income.getClientName());
@@ -51,7 +50,6 @@ public class TemplateServiceImpl implements TemplateService {
         map.put("time", df.format(new Date()));
         map.put("serialNum", income.getSerialUmber());
         map.put("total", income.getTotalMoney());
-
         for (int i = 1; i <= incomeDetails.size(); i++) {
             map.put("number" + i, fillLen(i+""));
             map.put("brandName" + i, incomeDetails.get(i - 1).getGoodsName());
@@ -59,21 +57,8 @@ public class TemplateServiceImpl implements TemplateService {
             map.put("quantity" + i, incomeDetails.get(i - 1).getCount());
             map.put("prices" + i, incomeDetails.get(i - 1).getPrices());
         }
-
-        String fileUrl;
-        if (incomeDetails.size() <= 6) {
-            Template template = selectByPrimaryKey(1);
-            fileUrl=template.getFileUrl();
-        } else if (incomeDetails.size() <= 10) {
-            Template template = selectByPrimaryKey(2);
-            fileUrl=template.getFileUrl();
-        } else if (incomeDetails.size() <= 14) {
-            Template template = selectByPrimaryKey(3);
-            fileUrl=template.getFileUrl();
-        } else {
-            Template template = selectByPrimaryKey(4);
-            fileUrl=template.getFileUrl();
-        }
+        Template template = getSuitableByLine(incomeDetails.size());
+        String fileUrl=template.getFileUrl();
         InputStream inputStream = PDFUtil.convertTransData(map, fileUrl);
         String pdf = OssUtil.getFileNameBySuffix("pdf");
         String s = OssUtil.uploadByStream(inputStream, null, pdf);
@@ -113,6 +98,15 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public List<Template> selectByAll(Template template) {
         return templateMapper.selectByAll(template);
+    }
+
+    @Override
+    public Template getSuitableByLine(Integer line) {
+        Template template =   templateMapper.getApproachByLine(line);
+        if (template==null){
+           return templateMapper.getMaxLine();
+        }
+        return template;
     }
 
 
