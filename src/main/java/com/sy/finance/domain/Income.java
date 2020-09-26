@@ -78,6 +78,8 @@ public class Income implements Serializable {
 
     private String endTime;
 
+    private Integer addUserId;
+
 
     private static final long serialVersionUID = 1L;
 }

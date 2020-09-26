@@ -7,6 +7,9 @@ import com.sy.finance.domain.Userinfo;
 import com.sy.finance.domain.dto.UpdPassword;
 import com.sy.finance.domain.dto.UpdUserInfo;
 import com.sy.finance.service.UserinfoService;
+import com.sy.finance.surictiy.SelfUserDetails;
+import com.sy.finance.surictiy.SelfUserService;
+import com.sy.finance.web.GrabException;
 import com.sy.finance.web.RespBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +37,8 @@ public class UserController {
     @Resource
     private UserinfoService userinfoService;
 
+
+
     @GetMapping("/login")
     @ApiOperation(value = "注销登陆")
     public RespBean logout(HttpServletRequest request){
@@ -45,6 +50,7 @@ public class UserController {
     @PostMapping("/updUserInfoById")
     @ApiOperation(value = "修改用户信息")
     public RespBean updUserInfo(@RequestBody @Valid UpdUserInfo userinfo){
+
         Userinfo userinfo1 = new Userinfo();
         BeanUtils.copyProperties(userinfo,userinfo1);
         userinfoService.updateByPrimaryKeySelective(userinfo1);
@@ -72,10 +78,14 @@ public class UserController {
     @GetMapping("/getUserInfoList")
     @ApiOperation(value = "获取用户列表")
     public  RespBean<PageInfo<List<Userinfo>>> getUserInfoList(@RequestParam Integer page,@RequestParam Integer pageSize,@RequestParam(required = false) String phone,@RequestParam(required = false) String userName){
-        PageHelper.startPage(page,pageSize);
         Userinfo userinfo = new Userinfo();
-        userinfo.setPhone(phone);
         userinfo.setUsername(userName);
+        SelfUserDetails userInfo = SelfUserService.getUserInfo();
+        if (!"admin".equals(userInfo.getRoleName())){
+            userinfo.setUsername(userInfo.getUsername());
+        }
+        PageHelper.startPage(page,pageSize);
+        userinfo.setPhone(phone);
         List<Userinfo> userinfos = userinfoService.selectByAll(userinfo);
         PageInfo<List<Userinfo>> listPageInfo = new PageInfo(userinfos);
         return RespBean.succeed(listPageInfo);
@@ -92,8 +102,19 @@ public class UserController {
     @GetMapping("/detById")
     @ApiOperation(value = "id删除")
     public RespBean detById(@RequestParam Integer id){
+        SelfUserDetails userInfo = SelfUserService.getUserInfo();
+        if (!"admin".equals(userInfo.getRoleName())){
+            throw new GrabException(4005,"无权限操作！");
+        }
         userinfoService.deleteByPrimaryKey(id);
         return RespBean.succeed();
+    }
+
+
+    @GetMapping("/te")
+    public RespBean  getTes(){
+        SelfUserService.getUserInfo();
+        return null;
     }
 
 

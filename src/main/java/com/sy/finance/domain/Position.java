@@ -46,6 +46,8 @@ public class Position implements Serializable {
     @ApiModelProperty(value="顺序")
     private Integer sequence;
 
+    private Integer addUserId;
+
 
     private static final long serialVersionUID = 1L;
 }

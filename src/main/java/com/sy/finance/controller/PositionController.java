@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.sy.finance.domain.Position;
 import com.sy.finance.domain.Userinfo;
 import com.sy.finance.service.PositionService;
+import com.sy.finance.surictiy.SelfUserDetails;
+import com.sy.finance.surictiy.SelfUserService;
 import com.sy.finance.web.RespBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,8 +40,14 @@ public class PositionController  {
     @GetMapping("/getPositionList")
     @ApiOperation(value = "获取操作人员列表")
     public  RespBean<PageInfo<List<Position>>> getUserInfoList(@RequestParam Integer page, @RequestParam Integer pageSize,  @RequestParam(required = false) String userName){
+
         PageHelper.startPage(page,pageSize);
         Position position = new Position();
+
+        SelfUserDetails userInfo = SelfUserService.getUserInfo();
+        if (!"admin".equals(userInfo.getRoleName())){
+            position.setAddUserId(userInfo.getId());
+        }
         position.setUserName(userName);
         List<Position> userinfos = positionService.selectByAll(position);
         PageInfo<List<Position>> listPageInfo = new PageInfo(userinfos);
@@ -49,7 +57,9 @@ public class PositionController  {
     @PostMapping(value = "addPosition")
     @ApiOperation(value = "添加操作人员")
     public RespBean addPosition(@RequestBody Position position){
+        SelfUserDetails userInfo = SelfUserService.getUserInfo();
         position.setCreated(new Date());
+        position.setAddUserId(userInfo.getId());
         positionService.insert(position);
         return RespBean.succeed();
     }
@@ -71,7 +81,12 @@ public class PositionController  {
     @GetMapping("/getAll")
     @ApiOperation(value = "获取全部操作人员")
     public RespBean<List<Position>> getAll(){
-        List<Position> positions = positionService.selectByAll(null);
+        SelfUserDetails userInfo = SelfUserService.getUserInfo();
+        Position position = new Position();
+        if (!"admin".equals(userInfo.getRoleName())){
+            position.setAddUserId(userInfo.getId());
+        }
+        List<Position> positions = positionService.selectByAll(position);
         return RespBean.succeed(positions);
     }
 

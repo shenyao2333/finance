@@ -33,6 +33,8 @@ public class SelfUserDetails  implements UserDetails, Serializable {
     @ApiModelProperty(value="密码")
     private String password;
 
+    private String roleName;
+
 
     private Set<? extends GrantedAuthority> authorities;
 

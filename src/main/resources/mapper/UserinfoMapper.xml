@@ -156,7 +156,7 @@
     select
     <include refid="Base_Column_List_Vo"/>
     from userinfo
-    where (username = #{accounts,jdbcType=VARCHAR} or phone = #{accounts,jdbcType=VARCHAR})
+    where username = #{accounts,jdbcType=VARCHAR}
     and password = #{password,jdbcType=VARCHAR}
   </select>
 

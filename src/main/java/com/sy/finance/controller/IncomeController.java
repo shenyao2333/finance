@@ -4,12 +4,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sy.finance.domain.Income;
 import com.sy.finance.domain.IncomeDetail;
+import com.sy.finance.domain.Position;
 import com.sy.finance.domain.dto.AddIncomeInfoDto;
 import com.sy.finance.domain.dto.GetIncomDetailDto;
 import com.sy.finance.domain.dto.GetIncomeDto;
 import com.sy.finance.domain.vo.IncomesVo;
 import com.sy.finance.service.IncomeDetailService;
 import com.sy.finance.service.IncomeService;
+import com.sy.finance.surictiy.SelfUserDetails;
+import com.sy.finance.surictiy.SelfUserService;
 import com.sy.finance.web.RespBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +46,8 @@ public class IncomeController {
     @PostMapping("/addIncomeInfo")
     @ApiOperation(value = "添加账单信息")
     public RespBean addIncome(@RequestBody  AddIncomeInfoDto addIncomeInfoDto){
+        SelfUserDetails userInfo = SelfUserService.getUserInfo();
+        addIncomeInfoDto.setAddUserId(userInfo.getId());
         incomeService.addIncome(addIncomeInfoDto);
         return RespBean.succeed("添加成功");
     }
@@ -58,7 +63,11 @@ public class IncomeController {
     @PostMapping("/getIncomeList")
     @ApiOperation(value = "获取账单列表")
     public RespBean<PageInfo<List<Income>>> getIncomeList(@RequestBody @Valid GetIncomeDto dto){
+        SelfUserDetails userInfo = SelfUserService.getUserInfo();
         Income income = new Income();
+        if (!"admin".equals(userInfo.getRoleName())){
+            income.setAddUserId(userInfo.getId());
+        }
         BeanUtils.copyProperties(dto,income);
         PageHelper.startPage(dto.getPage(),dto.getPageSize());
         String[] times = dto.getTimes();

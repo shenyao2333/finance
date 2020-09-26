@@ -11,10 +11,11 @@
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="sequence" jdbcType="INTEGER" property="sequence" />
     <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, user_name, `position`, created, sex, `sequence` ,updated
+    id, user_name, `position`, created, sex, `sequence` ,updated,add_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -31,9 +32,9 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.finance.domain.Position" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into `position` (user_name, `position`, created,
-      sex, `sequence`)
+      sex, `sequence`,add_user_id)
     values (#{userName,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
-      #{sex,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER})
+      #{sex,jdbcType=VARCHAR}, #{sequence,jdbcType=INTEGER},#{addUserId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.finance.domain.Position" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -54,6 +55,9 @@
       <if test="sequence != null">
         `sequence`,
       </if>
+      <if test="addUserId != null">
+        add_user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userName != null">
@@ -70,6 +74,9 @@
       </if>
       <if test="sequence != null">
         #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="addUserId != null">
+        #{addUserId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -92,6 +99,9 @@
       <if test="sequence != null">
         `sequence` = #{sequence,jdbcType=INTEGER},
       </if>
+      <if test="addUserId != null">
+        add_user_id = #{addUserId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -102,7 +112,8 @@
       `position` = #{position,jdbcType=VARCHAR},
       created = #{created,jdbcType=TIMESTAMP},
       sex = #{sex,jdbcType=VARCHAR},
-      `sequence` = #{sequence,jdbcType=INTEGER}
+      `sequence` = #{sequence,jdbcType=INTEGER},
+    add_user_id = #{addUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -130,6 +141,9 @@
             <if test="sequence != null">
                 and `sequence`=#{sequence,jdbcType=INTEGER}
             </if>
+          <if test="addUserId != null">
+            and add_user_id = #{addUserId,jdbcType=INTEGER}
+          </if>
         </where>
       order  by `sequence` asc
     </select>

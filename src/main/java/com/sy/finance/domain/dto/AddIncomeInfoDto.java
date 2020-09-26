@@ -86,4 +86,6 @@ public class AddIncomeInfoDto implements Serializable {
     @ApiModelProperty(value = "收入详情")
     private List<IncomeDetail> incomeDetailList;
 
+    private Integer addUserId;
+
 }

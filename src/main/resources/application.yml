@@ -10,9 +10,9 @@ spring:
   redis:
     # Redis数据库索引（默认为0）
     database: 0
-    host: 47.97.192.128
+    host: 118.178.141.57
     port: 6379
-    password: sy1998-+
+    password: 123abc
     # 连接超时时间（毫秒）
     timeout: 1000
     jedis:
@@ -27,9 +27,9 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.97.192.128:3306/finance?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://118.178.141.57:3306/finance?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
     username: root
-    password: sy1998-+
+    password: 123abc
     hikari:
       minimum-idle: 5
       idle-timeout: 600000

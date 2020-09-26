@@ -2,7 +2,10 @@ package com.sy.finance.controller;
 
 import com.sy.finance.domain.Template;
 import com.sy.finance.service.TemplateService;
+import com.sy.finance.surictiy.SelfUserDetails;
+import com.sy.finance.surictiy.SelfUserService;
 import com.sy.finance.utils.OssUtil;
+import com.sy.finance.web.GrabException;
 import com.sy.finance.web.RespBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
@@ -47,8 +49,23 @@ public class TemplateController {
     @PostMapping("/updTemplateInfo")
     @ApiOperation(value = "修改模版信息")
     public RespBean updTemplateInfo(@RequestBody @Valid Template template){
+        SelfUserDetails userInfo = SelfUserService.getUserInfo();
+        if (!"admin".equals(userInfo.getRoleName())){
+            throw new GrabException(4005,"无权限操作！");
+        }
         template.setUpdated(new Date());
         templateService.updateByPrimaryKeySelective(template);
+        return RespBean.succeed();
+    }
+
+    @GetMapping("/detById")
+    @ApiOperation(value = "删除模版")
+    public RespBean detById(Integer id){
+        SelfUserDetails userInfo = SelfUserService.getUserInfo();
+        if (!"admin".equals(userInfo.getRoleName())){
+            throw new GrabException(4005,"无权限操作！");
+        }
+        templateService.deleteByPrimaryKey(id);
         return RespBean.succeed();
     }
 
